@@ -1,8 +1,13 @@
-## Hi,I'm Phakkawat Jitponsup
+# Hi, I'm Phakkawat Jitponsup
 
-## Computer science [Kasetsart University]
+## 🎓 Computer Science  
+**Kasetsart University**
 
-![pic](./img/S__79609858.jpg)
+---
 
-[business_continuity](business_continuity.md)
+![My Picture](./img/S__79609858.jpg)
 
+---
+
+## 📄 Business Continuity  
+[Read more about Business Continuity](business_continuity.md)
