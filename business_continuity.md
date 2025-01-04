@@ -2,6 +2,7 @@
 
 ## CISSP Glossary
 Actions, processes, and tools for ensuring an organization can continue critical operations during a contingency.
+การดำเนินการ กระบวนการ และเครื่องมือต่างๆ เพื่อให้แน่ใจว่าองค์กรสามารถดำเนินการที่สำคัญต่อไปได้ระหว่างเหตุการณ์ฉุกเฉิน
 
 ---
 
