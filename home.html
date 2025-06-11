@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Anniversary</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: FreeMono, monospace;
+      background-image: url("BG.webp");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .timer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .box {
+      background: linear-gradient(135deg, #ff6ec4 0%, #7873f5 100%);
+      color: #fff;
+      padding: 20px 15px;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 200px;
+      min-height: 250px;
+      animation: fadeInUp 5s ease forwards;
+    }
+
+    .box h1 {
+      font-size: 50px;
+      padding: 20px 20px;
+    }
+
+    .box p {
+      font-size: 30px;
+      color: #ccc;
+    }
+
+    .message {
+      margin-top: 60px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 100px !important;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+      animation: fadeInUp 2s ease forwards;
+    }
+
+    @media (max-width: 900px) {
+      .box {
+        min-width: 100px;
+        min-height: 180px;
+        padding: 15px 10px;
+      }
+      .box h1 {
+        font-size: 36px;
+      }
+      .box p {
+        font-size: 20px;
+      }
+      .message {
+        font-size: 36px;
+        margin-top: 40px;
+      }
+      .polaroid {
+        width: 90%;
+      }
+      .polaroid img {
+        height: 200px;
+      }
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px;
+      animation: fadeInUp 10s ease forwards;
+    }
+
+    .polaroid {
+      background: white;
+      width: 250px;
+      padding: 10px 10px 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .caption {
+      margin-top: 10px;
+      font-family: DejaVu Sans Mono, monospace;
+      font-size: 20px;
+      color: #444;
+    }
+
+    .letter-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 100px;
+      animation: fadeInUp 5s ease forwards;
+    }
+
+    .envelope {
+      width: 280px;
+      height: 180px;
+      background: #ffc0cb;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: #ff8fa3;
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .envelope-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .click-to-open {
+      font-family: FreeMono, monospace;
+      font-size: 28px;
+      color: #880e4f;
+    }
+
+    .letter-wrapper {
+      margin-top: 40px;
+      perspective: 1000px;
+      display: none;
+    }
+
+    .feeling {
+      background: linear-gradient(145deg, #ffc0cb, #ffe6ec);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(255, 192, 203, 0.5);
+      padding: 30px 25px;
+      color: #880e4f;
+      font-size: 18px;
+      font-family: DejaVu Sans Mono, monospace;
+      text-align: center;
+      transform-origin: top;
+      transform: rotateX(-90deg);
+      opacity: 0;
+      animation: none;
+      max-width: 700px;
+    }
+
+    .feeling p {
+      font-size: 20px;
+      margin: 0;
+      line-height: 1.8;
+      white-space: pre-line;
+      font-family: DejaVu Sans Mono, monospace;
+      animation: fadeInUp 5s ease forwards;
+    }
+
+    h2 {
+      margin: 0;
+      line-height: 1.8;
+      text-align: center;
+      font-family: DejaVu Sans Mono, monospace;
+      animation: fadeInUp 5s ease forwards;
+    }
+    h1{
+      margin: 0;
+      line-height: 1.8;
+      text-align: center;
+      font-family: DejaVu Sans Mono, monospace;
+      animation: fadeInUp 5s ease forwards;
+    }
+    .custom-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-family: FreeMono, monospace;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #ff6ec4 0%, #7873f5 100%);
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeInUp 5s ease forwards;
+    }
+
+    .custom-btn:hover {
+      background: linear-gradient(135deg, #7873f5 0%, #ff6ec4 100%);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .custom-btn:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes openLetter {
+      0% {
+        transform: rotateX(-90deg);
+        opacity: 0;
+      }
+      60% {
+        transform: rotateX(20deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="celebration" id="fireworks"></canvas>
+  <div class="message">Happy Anniversary</div>
+
+  <div class="timer">
+    <div class="box"><h1 id="days">00</h1><p>days</p></div>
+    <div class="box"><h1 id="hours">00</h1><p>hours</p></div>
+    <div class="box"><h1 id="minutes">00</h1><p>min</p></div>
+    <div class="box"><h1 id="seconds">00</h1><p>sec</p></div>
+  </div>
+
+  <div class="letter-container">
+    <div class="envelope" onclick="openLetter()">
+      <div class="envelope-flap"></div>
+      <div class="envelope-body">
+        <p class="click-to-open">Click to Open 💌</p>
+      </div>
+    </div>
+
+    <div class="letter-wrapper">
+      <div class="feeling">
+        <p>ครบรอบ1เดือนเเล้ววว ที่เราเป็นเเฟนกัน หรือถ้านับตั้งเเต่ที่เริ่มคุยกันเริ่มรู้จักกันก็77วันเเล้ว 2เดือนกับอีก2สัปดาห์จนถึงตอนนี้เค้ารักบี๋มากๆเลยนะ ชอบตอนที่อยู่ด้วยกันที่สุดเลย ถึงตอนนี้เราไม่ค่อยได้อยู่ด้วยกันเพราะอยู่ไกลด้วยเเหละ เเต่ก็รักเหมือนเดิมนะเเละก็จะรักมากขึ้นไปอีกเรื่อยๆเลยยตั้งเเต่ได้คุยกันครั้งเเรกเค้าคิดเเบบว่า“นี่คนอย่างเราเราได้คุยกับคนที่สวยขนาดนี้เลยหรอ” 555555 เเล้วก็ตอนที่เราคอลคุยกันครั้งเเรกเค้าก็คิดว่าผู้หญิงคนนี้คืออยู่ด้วยเเล้วสนุกมากเเน่ๆเลย เเบบชีวิตมีสีสันมากๆมีคอนเท้นตลอดเลยย5555 พอได้เจอกันครั้งเเรกก็ยิ่งชอบเข้าไปอีก ตกหลุมรักเธอเต็มๆเลยย ตอนนั้นไปดูหนังด้วยกันเค้าตื่นเต้นมากๆ รีบหารอบหนังใหญ่เลย ในหัวคิดเเต่ว่าจะทำตัวยังไงดี ตอนไปหาที่บ้านครั้งเเรกยังมีคอนเท้น ตอนเธอถามทางไปบ้านกับเค้า55555พอไปถึงเเล้วเธอออกมาจากบ้านนี่เเบบ น่ารักมากก มองมุมไหนก็น่ารักก เเล้วเราก็ไปตีกอล์ฟก่อนดูหนังด้วยตอนนั้นเธอสอนเค้าอย่างดีเลย เค้าเเอบเขินนิดๆตอนเธอสอนอ่ะะ เสร็จเเล้วก็ไปดูหนังกันน เป็นmomentที่เค้ามีความสุขมากๆเลยย ส่งเธอเสร็จ ยิ้มดีใจมาตลอดทางเลยย55555 เเล้วก็ตอนที่เธอเอาเค้าเข้าclose friendเค้าไปนั่งไล่ดูคือใจฟูมากๆเลยคนที่คลั่งรักขนาดนี้เเล้วยิ่งเธอมาบอกว่าไม่ค่อยเอาใครเข้าเเล้วก็ไม่มีผู้ชายคนไหนได้เข้าเค้ายิ่งดีใจเข้าไปอีกก เเละจากนั้นเราก็ไปไหนมาไหนด้วยกันเรื่อยๆเลย ได้ไปทำนู่นนี่นั้นด้วยกัน ได้ไปหาของกินอร่อยๆด้วยกัน ได้ไปตีกอล์ฟ ได้ไปที่ใหม่ๆ เจออะไรหลายๆอย่าง จนถึงตอนนี้ เค้าก็ยังยืนยันคำเดิมเลยว่าตอนอยู่กับเธอมันมีความสุขมากจริงๆตอนที่ได้กอดกันได้ต้อยเธอด้วยย เรารู้จักกันได้คุยได้คบได้เเฟนกัน รวมก็จะ3เดือนเเล้ว รู้สคกว่าเราผ่านอะไรหลายๆอย่างมาด้วยกันเยอะมากก ทั้งดี ทั้งไม่ดี เเต่สุดท้ายเราก็ยังรักกันเหมือนเดิมมเค้าคงเป็นผู้ชายที่โชคดีที่สุดในโลกเเล้ว เพราะการได้เจอเธอมันดีกับชีวิตเค้าเเบบที่ไม่เคยมีมาก่อนเลย ได้สัมผัสกับความรักจริงๆได้รับความรู้สึกที่อบอุ่นมากๆ เธอเป็นเหมือนคนที่ดึงเค้าออกมาจากจุดเเย่ของเค้าเลยทำให้เค้าควบคุมตัวเองได้ ให้เลิกบุหรี่เลิกอะไรที่ไม่ดีได้ คอยซัพพอร์ตเค้าทุกเรื่อง ดูเเลเค้าดีมากๆเลย ทำกับข้าวก็อร่อย mindsetก็ดี ทำอะไรก็ดีไปหมดเลย เเถมยังสอนเเละเป็นเเนวทางในการใช้ชีวิตของเค้าอีก เหมือนที่เค้าเคยบอกว่า
+        “เค้าจะยอมทำทุกอย่างเพื่อให้มีชีวิตอยู่กับเธอเพื่อได้รักได้โอบกอดเธอไปตลอด”   
+        <h2>รักเธอมากที่สุดเลยนะคั้บบิบี๋ของเค้าา💖</h2></p>
+        <a href="second.html" class="custom-btn" role="button" aria-pressed="true">มีอีกนะะ จิ้มเลยยๆ</a>
+      </div>
+    </div>
+  </div>
+  <br><br><br>
+  <div><h1>Our Gallery</h1></div>
+  <br>
+  <div><h1>⇓⇓⇓</h1></div>
+  <br><br>
+
+<div class="gallery">
+        <div class="polaroid">
+        <img src="0.jpg">
+        <div class="caption">คอลครั้งเเรกกับเธออ</div>
+        </div>
+        <div class="polaroid">
+        <img src="2.jpg" >
+        <div class="caption">เดทเเรกของเรา💕วันนั้นเค้าตื่นเต้นสุดๆไปเลยยย5555</div>
+        </div>
+        <div class="polaroid">
+        <img src="1.jpg" >
+        <div class="caption">รูปเเรกที่เธอลงถึงเค้าา</div>
+        </div>
+        <div class="polaroid">
+        <img src="3.jpg">
+        <div class="caption">ไปตีกอล์ฟด้วยกันครั้งเเรกก🏌️</div>
+        </div>
+        <div class="polaroid">
+        <img src="4.jpg">
+        <div class="caption">รูปคู่รูปเเรกที่เค้าถ่าย จริงๆเป็นVDOเเต่แคปมาา</div>
+        </div>
+        <div class="polaroid">
+        <img src="5.jpg">
+        <div class="caption">ไปห้องเธอครั้งเเรกก นั่งรอเธอเรียนด้วยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="6.jpg">
+        <div class="caption">ตอนเห็นเธอลงคือเเบบใจฟูสุดเลยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="7.jpg">
+        <div class="caption">สงกรานต์ครั้งเเรกของเราา</div>
+        </div>
+        <div class="polaroid">
+        <img src="8.jpg">
+        <div class="caption">โดนล้อว่ากินอาหารเด็กด้วย5555</div>
+        </div>
+        <div class="polaroid">
+        <img src="9.jpg">
+        <div class="caption">เล่นกับร็อคเก็ตรอเค้าล้างรถถ🐕</div>
+        </div>
+        <div class="polaroid">
+        <img src="10.jpg">
+        <div class="caption">รูปนี้น่ารักก</div>
+        </div>
+        <div class="polaroid">
+        <img src="11.jpg">
+        <div class="caption">ไปกินหมูทะเเต่มีคนไม่ถูกใจน้ำจิ้มม รอบหน้าเลยเอาใหม่55555</div>
+        </div>
+        <div class="polaroid">
+        <img src="12.jpg">
+        <div class="caption">เค้าไปตัดผมเเล้วเธอก็ตัดหน้าม้าด้วย</div>
+        </div>
+        <div class="polaroid">
+        <img src="13.jpg">
+        <div class="caption">เช็ดผมให้เเฟนซะหน่อยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="14.jpg">
+        <div class="caption">น่ารักอีกเเล้วว</div>
+        </div>
+        <div class="polaroid">
+        <img src="15.jpg">
+        <div class="caption">ไปบางเเสน ไปอีทข้าวต้มม</div>
+        </div>
+        <div class="polaroid">
+        <img src="16.jpg">
+        <div class="caption">ไปนั่งหาดด้วยกันน</div>
+        </div>
+        <div class="polaroid">
+        <img src="17.jpg">
+        <div class="caption">กินหม่าล่าชามเท่าตัว5555</div>
+        </div>
+        <div class="polaroid">
+        <img src="18.jpg">
+        <div class="caption">So Cuteee💗</div>
+        </div>
+        <div class="polaroid">
+        <img src="19.jpg">
+        <div class="caption">ทำเเกงเห็ดให้เค้ากินด้วยอร่อยสุดเลยยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="20.jpg">
+        <div class="caption">จะอุ้มกลับให้ได้เลยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="21.jpg">
+        <div class="caption">สำลี & ชาโคลล</div>
+        </div>
+        <div class="polaroid">
+        <img src="22.jpg">
+        <div class="caption">โดนห้ามจุ๊บเพราะมาร์กหน้าา</div>
+        </div>
+        <div class="polaroid">
+        <img src="23.jpg">
+        <div class="caption">มาหอก็ทำให้กินนน</div>
+        </div>
+        <div class="polaroid">
+        <img src="24.jpg">
+        <div class="caption">💓</div>
+        </div>
+        <div class="polaroid">
+        <img src="25.jpg">
+        <div class="caption">กินข้าวรอคนทำเล็บบ</div>
+        </div>
+        <div class="polaroid">
+        <img src="26.jpg">
+        <div class="caption">น้องจินเจ้อออออ🐱</div>
+        </div>
+        <div class="polaroid">
+        <img src="27.jpg">
+        <div class="caption">นี่ก็น่ารักกก</div>
+        </div>
+        <div class="polaroid">
+        <img src="28.jpg">
+        <div class="caption">มีคนไม่ให้ถ่ายยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="29.jpg">
+        <div class="caption">Cuteee makk makkk💗</div>
+        </div>
+        <div class="polaroid">
+        <img src="30.jpg">
+        <div class="caption">ขนาดกันปิ้งย่างยังสวยเลยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="31.jpg">
+        <div class="caption">ทำมีมละหนึ่งงง</div>
+        </div>
+        <div class="polaroid">
+        <img src="38.jpg">
+        <div class="caption">ข้าวฝีมือเธออร่อยที่สุดเลยยย เเส่บบบบ</div>
+        </div>
+        <div class="polaroid">
+        <img src="33.jpg">
+        <div class="caption">เป็นคนที่ถ่ายรูปเค้าได้หล่อที่สุดเเล้วว</div>
+        </div>
+        <div class="polaroid">
+        <img src="34.jpg">
+        <div class="caption">กินเเส่บบบ</div>
+        </div>
+        <div class="polaroid">
+        <img src="35.jpg">
+        <div class="caption">ท่าประจำตัวว5555</div>
+        </div>
+        <div class="polaroid">
+        <img src="36.jpg">
+        <div class="caption">กินไอติมด้วยกันนน</div>
+        </div>
+        <div class="polaroid">
+        <img src="37.jpg">
+        <div class="caption">เเส่บอีกตามเคยยย</div>
+        </div>
+        <div class="polaroid">
+        <img src="32.jpg">
+        <div class="caption">เเฟนเค้าสวยที่สุดในโลกเลยยยย💟</div>
+        </div>
+        <div class="polaroid">
+        <img src="39.jpg">
+        <div class="caption">เค้ารักบิบี๋ที่สุดเลยคั้บบบ💖</div>
+        </div>
+
+    </div>
+    <br>
+    <a href="gallery.html" style="padding: 30px 25px;" class="custom-btn" role="button" aria-pressed="true" >ไปกันต่ออ!!</a>
+    <br><br><br>
+
+  <script>
+    const startDate = new Date("2025-05-13T18:00:00Z");
+
+    function updateTimer() {
+      const now = new Date();
+      const diff = now - startDate;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      document.getElementById("days").textContent = String(days).padStart(2, '0');
+      document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    function openLetter() {
+      const envelope = document.querySelector('.envelope');
+      const letter = document.querySelector('.letter-wrapper');
+      const feeling = document.querySelector('.feeling');
+      envelope.style.opacity = '0';
+      envelope.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        envelope.style.display = 'none';
+        letter.style.display = 'block';
+        feeling.style.animation = 'openLetter 1.2s ease-out forwards';
+      }, 300);
+    }
+  </script>
+
+  <script>
+  // Fireworks with timeout
+  const canvas = document.getElementById('fireworks');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+
+  let fireworks = [];
+  let fireworksInterval;
+  let animationId;
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  class Particle {
+    constructor(x, y, angle, speed, color) {
+      this.x = x;
+      this.y = y;
+      this.speedX = Math.cos(angle) * speed;
+      this.speedY = Math.sin(angle) * speed;
+      this.alpha = 1;
+      this.color = color;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.speedY += 0.02;
+      this.alpha -= 0.01;
+    }
+
+    draw() {
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function createFirework() {
+    const x = random(0.3 * w, 0.7 * w);
+    const y = random(0.2 * h, 0.5 * h);
+    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`;
+    for (let i = 0; i < 50; i++) {
+      const angle = random(0, Math.PI * 2);
+      const speed = random(1, 6);
+      fireworks.push(new Particle(x, y, angle, speed, color));
+    }
+  }
+
+  function animate() {
+    animationId = requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, w, h);
+
+    fireworks = fireworks.filter(p => p.alpha > 0);
+    fireworks.forEach(p => {
+      p.update();
+      p.draw();
+    });
+  }
+
+  // Start fireworks
+  fireworksInterval = setInterval(createFirework, 800);
+  animate();
+
+  // Stop after 10 seconds
+  setTimeout(() => {
+    clearInterval(fireworksInterval);
+    cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, w, h);
+  }, 10000); // 10000ms = 10 seconds
+</script>
+</body>
+</html>
