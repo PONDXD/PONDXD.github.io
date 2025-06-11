@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Letter</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: FreeMono, monospace;
+      background-image: url("BG.webp");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .box {
+      background: linear-gradient(135deg, #ff6ec4 0%, #7873f5 100%);
+      color: #fff;
+      padding: 20px 15px;
+      border-radius: 10px;
+      text-align: center;
+      min-width: 200px;
+      min-height: 250px;
+      animation: fadeInUp 5s ease forwards;
+    }
+
+    .box h1 {
+      font-size: 50px;
+      padding: 20px 20px;
+    }
+
+    .box p {
+      font-size: 30px;
+      color: #ccc;
+    }
+
+    .message {
+      margin-top: 60px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 100px;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+      animation: fadeInUp 2s ease forwards;
+    }
+
+    @media (max-width: 900px) {
+      .box {
+        min-width: 100px;
+        min-height: 180px;
+        padding: 15px 10px;
+      }
+      .box h1 {
+        font-size: 36px;
+      }
+      .box p {
+        font-size: 20px;
+    }
+    }
+    .letter-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: fadeInUp 5s ease forwards;
+    }
+
+
+    .envelope {
+      width: 280px;
+      height: 180px;
+      background: #ffc0cb;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: -50px;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: #ff8fa3;
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .envelope-body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .click-to-open {
+      font-family: FreeMono, monospace;
+      font-size: 28px;
+      color: #880e4f;
+    }
+
+    .letter-wrapper {
+      margin-top: 40px;
+      perspective: 1000px;
+      display: none;
+    }
+
+    .feeling {
+      background: linear-gradient(145deg, #ffc0cb, #ffe6ec);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(255, 192, 203, 0.5);
+      padding: 30px 25px;
+      color: #880e4f;
+      font-size: 18px;
+      font-family: DejaVu Sans Mono, monospace;
+      text-align: center;
+      transform-origin: top;
+      transform: rotateX(-90deg);
+      opacity: 0;
+      animation: none;
+      max-width: 700px;
+    }
+
+    .feeling p {
+      font-size: 20px;
+      margin: 0;
+      line-height: 1.8;
+      white-space: pre-line;
+      font-family: DejaVu Sans Mono, monospace;
+      animation: fadeInUp 5s ease forwards;
+    }
+
+    h2 {
+      margin: 0;
+      line-height: 1.8;
+      text-align: center;
+      font-family: DejaVu Sans Mono, monospace;
+      animation: fadeInUp 5s ease forwards;
+    }
+    h1{
+      margin: 0;
+      line-height: 1.8;
+      text-align: center;
+      font-family: DejaVu Sans Mono, monospace;
+      animation: fadeInUp 5s ease forwards;
+    }
+    .custom-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-family: FreeMono, monospace;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #ff6ec4 0%, #7873f5 100%);
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeInUp 5s ease forwards;
+    }
+
+    .custom-btn:hover {
+      background: linear-gradient(135deg, #7873f5 0%, #ff6ec4 100%);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .custom-btn:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes openLetter {
+      0% {
+        transform: rotateX(-90deg);
+        opacity: 0;
+      }
+      60% {
+        transform: rotateX(20deg);
+        opacity: 0.7;
+      }
+      100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="celebration" id="fireworks"></canvas>
+  <div class="letter-container">
+    <div class="envelope" onclick="openLetter()">
+      <div class="envelope-flap"></div>
+      <div class="envelope-body">
+        <p class="click-to-open">Click to Open 💌</p>
+      </div>
+    </div>
+
+    <div class="letter-wrapper">
+      <div class="feeling">
+        <p>ที่ผ่านมาเค้าไม่รู้ว่าเธอคิดว่าเค้าเป็นเเฟนที่ดีรึเปล่า เเต่ตัวเค้าเองคิดว่าเธอคือเเฟนที่ดีที่สุดในชีวิตเค้าเลย ไม่เคยคิดเลยว่าชีวิตนี้จะหาคนที่ดีขนาดนี้ได้เเละก็ไม่เคยคิดเลยว่าจะมีคนที่ดีกว่าเธอ เธอคือที่สุดของชีวิตเค้าเเล้วจริงๆ ที่ผ่านเค้าอยากขอโทษในสิ่งที่เค้าทำไม่ดีกับเธอ ทำให้เธอไม่ชอบ เค้าจะพยายามมากขึ้นไปทุกๆวันเพื่อเธอเพื่ออนาคตของเราสองคน ถึงตอนนี้หลายๆอย่างมันอาจจะยังไม่ดีพอ ยังไม่เข้าร่องเข้ารอย เเต่เค้าสัญญานะว่าเค้าจะทำให้ดีที่สุด ที่สุดเท่าที่คนๆนึงจะสามารถทำได้ ช่วงนี้เราสองคนอยู่ไกลกันเวลาก็ไม่ค่อยตรงกันบวกกับเธอทำงานอีก เราได้คุยกันน้อยลงเเต่เค้าก็เข้าใจว่าเธอเหนื่อยเธอต้องพักผ่อน เเต่บางทีก็อดห่วงไม่ได้จริงๆเค้าอาจจะไปรบกวนเธอบ้าง ตรงนี้เค้าขอโทษนะ เค้ามีเเค่เธอคนเดียวเลยห่วงเธอมากๆกลัวว่าเธอจะเป็นอะไรมั้ย ไม่สบายมั้ย เหนื่อยมั้ย เค้าไม่อยากให้เธอเป็นอะไรยิ่งช่วงนี้สุขภาพเธอไม่ค่อยดีอีก ชีวิตเค้ามันไม่มีอะไรที่สำคัญไปมากกว่าเธอเเล้วเลยอยากดูเเลให้ดี อยากคอยถามเธอคอยคุยกับเธอตลอดเลย สุดท้ายนี้เธอทำสิ่งที่เธอชอบที่เธออยากเท่าให้เต็มที่เลยนะ เค้าจะอยู่ข้างๆเธอเอง จะคอยซัพพอร์ตเธอให้ดีที่สุดเลย ให้เธอคิดว่าหันมามองข้างๆยังมีเค้าอยู่
+        <h2>💖</h2>
+        <h2>ถึงจะชอบน้อยใจชอบคิดมากหวงเธอมากเกินไปเเต่เค้าก็รักเธอมากๆเลยนะ</h2>
+        <h2>รักมากกว่าทุกๆสิ่งในจักวาลนี้เลย</h2>
+        </p>
+        <br>
+        <a href="home.html" class="custom-btn" role="button" aria-pressed="true">กลับไปดูรูปเรากันน</a>
+      </div>
+    </div>
+  </div>
+  <script>
+  // Fireworks with timeout
+  const canvas = document.getElementById('fireworks');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+
+  let fireworks = [];
+  let fireworksInterval;
+  let animationId;
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  class Particle {
+    constructor(x, y, angle, speed, color) {
+      this.x = x;
+      this.y = y;
+      this.speedX = Math.cos(angle) * speed;
+      this.speedY = Math.sin(angle) * speed;
+      this.alpha = 1;
+      this.color = color;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.speedY += 0.02;
+      this.alpha -= 0.01;
+    }
+
+    draw() {
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function createFirework() {
+    const x = random(0.3 * w, 0.7 * w);
+    const y = random(0.2 * h, 0.5 * h);
+    const color = `hsl(${Math.floor(Math.random() * 360)}, 100%, 60%)`;
+    for (let i = 0; i < 50; i++) {
+      const angle = random(0, Math.PI * 2);
+      const speed = random(1, 6);
+      fireworks.push(new Particle(x, y, angle, speed, color));
+    }
+  }
+
+  function animate() {
+    animationId = requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, w, h);
+
+    fireworks = fireworks.filter(p => p.alpha > 0);
+    fireworks.forEach(p => {
+      p.update();
+      p.draw();
+    });
+  }
+
+  // Start fireworks
+  fireworksInterval = setInterval(createFirework, 800);
+  animate();
+
+  // Stop after 10 seconds
+  setTimeout(() => {
+    clearInterval(fireworksInterval);
+    cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, w, h);
+  }, 10000); // 10000ms = 10 seconds
+  function openLetter() {
+      const envelope = document.querySelector('.envelope');
+      const letter = document.querySelector('.letter-wrapper');
+      const feeling = document.querySelector('.feeling');
+      envelope.style.opacity = '0';
+      envelope.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        envelope.style.display = 'none';
+        letter.style.display = 'block';
+        feeling.style.animation = 'openLetter 1.2s ease-out forwards';
+      }, 300);
+    }
+</script>
+</body>
+</html>
